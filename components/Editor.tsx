@@ -1,7 +1,6 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import Konva from 'konva'
-import { Stage, Layer, Image, Text, Rect, Transformer } from 'react-konva'
-import { KonvaEventObject } from 'konva/types/Node'
+import { Stage, Layer, Image, Text, Rect } from 'react-konva'
 
 const WIDTH = 256
 const HEIGHT = 256
@@ -13,28 +12,11 @@ interface Props {
 	text?: string
 }
 
-const useTransformer = (ref: Konva.Shape) => {
-	const transformer = useRef<Konva.Transformer>(new Konva.Transformer())
-
-	useEffect(() => {
-		if (ref) {
-			transformer.current?.nodes([ref])
-			transformer.current?.getLayer().batchDraw()
-		}
-	}, [ref])
-
-	return transformer
-}
-
-
 const Editor = React.forwardRef(({style, text, src}: Props, ref: React.ForwardedRef<Konva.Stage>) => {
 	const stageRef = ref
 	const imageRef = useRef<Konva.Image>(null)
 	const textRef = useRef<Konva.Text>(null)
-	const [selectedRef, setSelectedRef] = useState(null)
 	const image = useRef<HTMLImageElement>(document.createElement('img'))
-
-	const transform = useTransformer(selectedRef)
 
 	useEffect(() => {
 		image.current.src = src
@@ -43,20 +25,9 @@ const Editor = React.forwardRef(({style, text, src}: Props, ref: React.Forwarded
 		}
 	}, [src])
 
-	const handleTransform = useCallback(
-		(e: KonvaEventObject<MouseEvent>) => {
-			/*
-			if (e.target !== stageRef.current) {
-				setSelectedRef(e.target)
-			} else {
-				setSelectedRef(null)
-			}
-			*/
-		},
-		[stageRef],
-	)
-
-	const centerTextX = textRef.current ? WIDTH / 2 - (textRef.current.getWidth() / 2) : 0
+	const centerTextX = useMemo(() => {
+		return textRef.current ? WIDTH / 2 - (textRef.current.getWidth() / 2) : 0
+	}, [textRef.current])
 
 	return (
 			<Stage
@@ -64,7 +35,6 @@ const Editor = React.forwardRef(({style, text, src}: Props, ref: React.Forwarded
 				style={style}
 				width={WIDTH}
 				height={HEIGHT}
-				onClick={handleTransform}
 			>
 				<Layer>
 					<Image
@@ -78,10 +48,10 @@ const Editor = React.forwardRef(({style, text, src}: Props, ref: React.Forwarded
 					{text.length > 0 &&
 						<>
 							<Rect
-								height={(textRef.current?.getHeight() ?? 0) + 16}
-								width={(textRef.current?.getWidth() ?? 0) + 60}
-								y={177}
-								x={centerTextX - 30}
+								height={34}
+								width={190}
+								y={180}
+								x={(WIDTH / 2) - 95}
 								fill="#25AE60"
 								shadowColor="black"
 								shadowOffsetY={2}
@@ -93,14 +63,15 @@ const Editor = React.forwardRef(({style, text, src}: Props, ref: React.Forwarded
 								ref={textRef}
 								text={text}
 								fontSize={24}
+								width={190}
 								fontFamily="Nunito"
+								x={(WIDTH / 2) - 95}
 								y={186}
-								x={centerTextX}
+								align="center"
 								fill="white"
 							/>
 						</>
 					}
-					{selectedRef && <Transformer ref={transform} />}
 				</Layer>
 			</Stage>
 	)

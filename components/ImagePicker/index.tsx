@@ -70,6 +70,8 @@ const ImagePicker = ({className}: Props) => {
 		const file = inputFileRef.current?.files?.[0]
 		if (!file) return
 
+		setFileBase64(null)
+
 		toBase64(file).then((fileBase64) => {
 			setFileBase64(() => fileBase64)
 		})
