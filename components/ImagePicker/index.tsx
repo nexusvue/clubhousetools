@@ -82,6 +82,7 @@ const ImagePicker = ({className}: Props) => {
 			const img: HTMLImageElement = await (new Promise((resolve) => {
 				stageRef.current.toImage({
 					mimeType: 'image/png',
+					pixelRatio: 2,
 					callback: file => resolve(file)
 				})
 			}))
