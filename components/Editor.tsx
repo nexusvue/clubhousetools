@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Konva from 'konva'
 import { Stage, Layer, Image, Text, Rect } from 'react-konva'
 
@@ -17,17 +17,20 @@ const Editor = React.forwardRef(({style, text, src}: Props, ref: React.Forwarded
 	const imageRef = useRef<Konva.Image>(null)
 	const textRef = useRef<Konva.Text>(null)
 	const image = useRef<HTMLImageElement>(document.createElement('img'))
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
+		setLoading(true)
 		image.current.src = src
 		image.current.onload = () => {
-			imageRef.current.getLayer().batchDraw()
+			setLoading(false)
 		}
 	}, [src])
 
-	const centerTextX = useMemo(() => {
-		return textRef.current ? WIDTH / 2 - (textRef.current.getWidth() / 2) : 0
-	}, [textRef.current])
+	useEffect(() => {
+		if (!loading && imageRef.current.getLayer)
+			imageRef.current.getLayer().batchDraw()
+	}, [loading, imageRef.current?.getLayer])
 
 	return (
 			<Stage
@@ -37,14 +40,14 @@ const Editor = React.forwardRef(({style, text, src}: Props, ref: React.Forwarded
 				height={HEIGHT}
 			>
 				<Layer>
-					<Image
+					{image.current && !loading && <Image
 						ref={imageRef}
 						image={image.current}
 						x={0}
 						y={0}
 						width={WIDTH}
 						height={HEIGHT}
-					/>
+					/>}
 					{text.length > 0 &&
 						<>
 							<Rect
