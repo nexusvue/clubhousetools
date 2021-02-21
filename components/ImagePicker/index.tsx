@@ -24,7 +24,6 @@ const ImagePicker = ({className}: Props) => {
 	const [label, setLabel] = useState('')
 	const [fileBase64, setFileBase64] = useState<string>()
 	const [crop, setCrop] = useState({ x: 0, y: 0 })
-	const [rotation, setRotation] = useState(0)
 	const [zoom, setZoom] = useState(1)
 	const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 	const [croppedImage, setCroppedImage] = useState(null)
@@ -35,10 +34,9 @@ const ImagePicker = ({className}: Props) => {
 
 	const showCroppedImage = useCallback(async () => {
     try {
-      const croppedImage = await getCroppedImg(
+      const croppedImage = getCroppedImg(
         fileBase64,
         croppedAreaPixels,
-        rotation
       )
       console.log('done', { croppedImage })
       setCroppedImage(croppedImage)
@@ -46,7 +44,7 @@ const ImagePicker = ({className}: Props) => {
     } catch (e) {
       console.error(e)
     }
-  }, [croppedAreaPixels, rotation])
+  }, [croppedAreaPixels])
 
 	const handleInputFileClick = useCallback(() => {
 		if (inputFileRef.current) {
@@ -121,10 +119,8 @@ const ImagePicker = ({className}: Props) => {
 				<Cropper
 					image={fileBase64}
 					aspect={1}
-					rotation={rotation}
 					onCropChange={setCrop}
 					onZoomChange={setZoom}
-					onRotationChange={setRotation}
 					onCropComplete={onCropComplete}
 					crop={crop}
 					zoom={zoom}
@@ -141,6 +137,7 @@ const ImagePicker = ({className}: Props) => {
 						<select className="mb-8" onChange={(e) => setLabel(e.target.value)}>
 							<option value=""></option>
 							<option value="👂 Listening">Listening</option>
+							<option value="🗣 Speaker">Speaker</option>
 							<option value="‍⚖️ Moderating">Moderating</option>
 							<option value="📹 Recording">Recording</option>
 						</select>
