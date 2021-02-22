@@ -14,12 +14,12 @@ export default function Home() {
         <article className="flex flex-col flex-grow mt-8 items-center">
           <h2 className="text-center text-2xl font-extrabold text-gray-800">Change your status</h2>
           <p className="text-gray-600 pb-5">Update your profile picture with a status badge</p>
-          <ImagePicker className="p-4 pb-8"/>
+          <ImagePicker className="p-4"/>
         </article>
         <footer className="p-4 text-sm text-gray-600 flex justify-between items-end w-full">
 					<div></div>
 					<div>
-						Made with <span>❤️</span> by <span className="font-semibold text-gray-700">Gabriel Perales</span>
+						Made with <span>❤️</span> by <a className="pointer-cursor font-semibold text-gray-700" href="https://twitter.com/g_perales" target="_blank">Gabriel Perales</a>
 					</div>
 					<Feedback />
 				</footer>

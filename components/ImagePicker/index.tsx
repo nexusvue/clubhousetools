@@ -94,25 +94,26 @@ const ImagePicker = ({className}: Props) => {
 	return (
 		<div className={className}>
 			<div
-				className="cursor-pointer w-64 h-64 flex justify-center items-center bg-auto bg-no-repeat bg-center bg-contain"
+				className="relative cursor-pointer w-64 h-64 bg-auto bg-no-repeat bg-center bg-contain"
 				style={style}
 				onClick={handleInputFileClick}
 			>
-				{
-					croppedImage
-					? <Editor
-							ref={stageRef}
-							src={croppedImage}
-							text={label}
-							style={{
-								WebkitMaskImage: `url(${clippath})`,
-								maskImage: `url(${clippath})`,
-								WebkitMaskSize: `cover`,
-								maskSize: `cover`,
-							}}
-						/>
-					: <div className="w-36 text-center text-xl text-gray-800">Click to upload a picture</div>
+				{croppedImage &&
+					<Editor
+						ref={stageRef}
+						src={croppedImage}
+						text={label}
+						style={{
+							WebkitMaskImage: `url(${clippath})`,
+							maskImage: `url(${clippath})`,
+							WebkitMaskSize: `cover`,
+							maskSize: `cover`,
+						}}
+					/>
 				}
+				<div className="absolute top-0 left-0 right-0 bottom-0 w-full h-full flex justify-center items-center">
+					<div className={`w-36 text-center text-xl text-gray-800 ${croppedImage && 'opacity-0'}`}>Click to upload a picture</div>
+				</div>
 			</div>
 			{fileBase64 &&
 			<div className="absolute top-0 right-0 bottom-0 left-0">
