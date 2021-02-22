@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@feedback-fish/react": "^1.2.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^3.3.0",
     "konva": "^7.2.2",
