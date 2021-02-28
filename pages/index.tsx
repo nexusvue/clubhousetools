@@ -27,7 +27,6 @@ export default function Home() {
 						],
 					}}
 				/>
-
         <h1 className="p-4 text-4xl font-bold text-gray-800">🛠 Clubhouse tools</h1>
         <article className="flex flex-col flex-grow mt-8 items-center">
           <h2 className="text-center text-2xl font-extrabold text-gray-800">Change your status</h2>
