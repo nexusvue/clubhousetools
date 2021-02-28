@@ -37,7 +37,7 @@ export default function Home() {
         <footer className="p-4 text-sm text-gray-600 flex justify-between items-end w-full">
 					<div></div>
 					<div>
-						Made with <span>❤️</span> by <a className="pointer-cursor font-semibold text-gray-700" href="https://twitter.com/g_perales" target="_blank">Gabriel Perales</a>
+						Made with <span>❤️</span> by <a className="pointer-cursor font-semibold text-gray-700" href="https://twitter.com/doogle.xyz" target="_blank">Doogle
 					</div>
 					<Feedback />
 				</footer>
